@@ -79,13 +79,10 @@ Usage: [m var] = gpP_pred(gp, input, target, test)
 
 where: 
 
-·         gp     is a Gaussian Process struct with precomputed variables
-
-·         test   is a nn by D matrix of test inputs, D as for 'input'
-
-·         pr_mean is a (column) vector (of size nn) of prediced means
-
-·         pr_var is a (column) vector (of size nn) of predicted variances
+* gp     is a Gaussian Process struct with precomputed variables
+* test   is a nn by D matrix of test inputs, D as for 'input'
+* pr_mean is a (column) vector (of size nn) of prediced means
+* pr_var is a (column) vector (of size nn) of predicted variances
 
 Note that predicted variances should be only computed when hyperparameters were chosen by either 'llh' or 'gpp'. Optimizing "loo" determines variances only up to a scale factor! The gaussian process struct 'gp' must contain the precomputed inverse variance 'gp.invK'. This is computed with 'gpP_eval'. If gpP_ams(d) is used for model selection all the necessary values are filled in. (Note that invKt must be computed with centered target data, but target must be given uncentered to get consistent predictions. On output, mean and (noise free) variance are returned.) If no model selection was done before, the ‘gp’ struct can be filled by the function gpP_build.m.
 
@@ -93,59 +90,40 @@ Usage: gp = buildGP(type, degree, hp, method, target)
 
 where:
 
-·         type      is a string containing the polynomial type
-
-§         'ihp':      inhomogeneous polynomial kernel
-
-§         'ap':       adaptive polynomial kernel
-
-·         degree   is the polynomial degree of the GP
-
-·         hp          is a (column) vector of hyperparameters
-
-·         method  is a string containing the model selection method
-
-§         'llh':      log likelihood
-
-§         'gpp':      Geissers surrogate predictive probability
-
-§         'loo':      Leave-one-out MSE
-
-·         target    is a (column) vector (of size n) of targets
-
-·         gp         is the returned gaussian process struct, it simply contains the parameters provided to the function
+* type      is a string containing the polynomial type: ('ihp': inhomogeneous polynomial kernel, 'ap': adaptive polynomial kernel)
+* degree   is the polynomial degree of the GP
+* hp          is a (column) vector of hyperparameters
+* method  is a string containing the model selection method ('llh':log likelihood, 'gpp': Geissers surrogate predictive probability, 'loo': Leave-one-out MSE)
+* target    is a (column) vector (of size n) of targets
+* gp         is the returned gaussian process struct, it simply contains the parameters provided to the function
 
  
-
-Computation of the explicit nth-order Volterra operator
+## Computation of the explicit nth-order Volterra operator
 
 The computation of the explicit nth-order Volterra operator from the implicitly given polynomial expansion is done by the function gpP_volt.m.
 
 Usage: eta = gpP_volt(gp, volt_deg)
 
- where:
+where:
 
-·         gp            is a Gaussian Process struct with precomputed variables
+* gp            is a Gaussian Process struct with precomputed variables
+* volt_deg is the degree of the Volterra operator of interest
+*  eta           are the coefficients of the monomials in the nth-order Volterra operator. The order of the coefficients follows the order of the monomials computed by alltupels.m, e.g., for 2D input and the 2nd-order operator, we have
 
-·         volt_deg is the degree of the Volterra operator of interest
+indices         monomials            coefficient          result
 
-·         eta           are the coefficients of the monomials in the nth-order Volterra operator. The order of the coefficients follows the order of the monomials computed by alltupels.m, e.g., for 2D input and the 2nd-order operator, we have
+1     1 =>      x1^2                                 h_11                 eta(1)
 
-o        indices         monomials            coefficient          result
+2     1 =>      x2*x1                               h_21                 eta(2)
 
-o        1     1 =>      x1^2                                 h_11                 eta(1)
+1     2 =>      x1*x2                               h_21                 eta(3) 
 
-o        2     1 =>      x2*x1                               h_21                 eta(2)
-
-o        1     2 =>      x1*x2                               h_21                 eta(3) 
-
-o        2     2 =>      X2^2                                 h_22                 eta(4)
+2     2 =>      X2^2                                 h_22                 eta(4)
 
 In general, starting with 1, the nth index is only changed when the (n-1)th index has undergone all possible permutations.
 
 As in gpP_pred, the Gaussian process struct 'gp' must contain the precomputed inverse variance 'gp.invK'. This is computed with 'gpP_eval'. If gpP_amsd is used for model selection all the necessary values are filled in.
 
- 
 
 References
 [1] Rasmussen, C. E., & Williams, C. K. I. (2006). Gaussian processes for machine learning. Cambridge, MA: MIT Press.
@@ -153,4 +131,3 @@ References
 [3] S. Sundararajan, S.S. Keerthi (2001). Predictive approaches for choosing hyperparameters in Gaussian processes. Neural Computation 13, 1103-1118.
 [4] V. Vapnik (1982). Estimation of dependences based on empirical data. New York: Springer.
  
-
