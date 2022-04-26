@@ -126,8 +126,12 @@ As in gpP_pred, the Gaussian process struct 'gp' must contain the precomputed in
 
 
 References
+
 [1] Rasmussen, C. E., & Williams, C. K. I. (2006). Gaussian processes for machine learning. Cambridge, MA: MIT Press.
+
 [2] Franz, M. O. and B. Schölkopf  (2006) A unifying view of Wiener and Volterra theory and polynomial kernel regression. Neural Computation (in press) [PDF].
+
 [3] S. Sundararajan, S.S. Keerthi (2001). Predictive approaches for choosing hyperparameters in Gaussian processes. Neural Computation 13, 1103-1118.
+
 [4] V. Vapnik (1982). Estimation of dependences based on empirical data. New York: Springer.
  
