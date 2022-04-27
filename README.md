@@ -14,9 +14,11 @@ Poly_reg is a Matlab package for doing Gaussian process regression [1] using a p
 
 The available polynomial covariance functions of order p are
 
-1.       the inhomogeneous polynomial kernel:  k(x, y) = (x’*y + 1)^p
-
-2.       the adaptive polynomial kernel: k(x,y) = sum_i^p (w_i x’y)^I where each degree of nonlinearity receives an individual weight w_i that is found during model selection.
+1. the inhomogeneous polynomial kernel:  
+         k(x, y) = (x’*y + 1)^p
+2. the adaptive polynomial kernel: 
+         k(x,y) = sum_i^p (w_i x’y)^I 
+where each degree of nonlinearity receives an individual weight w_i that is found during model selection.
 
 The package consists of the following routines:
 
