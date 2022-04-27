@@ -1,9 +1,11 @@
 # volterra
 Estimate Volterra series via Gaussian process regression using polynomial kernels
 
-We provide the Matlab package poly_reg and the Python package preg for the same purpose. The Python package is currently under development and not yet publicly available.
+We provide the Matlab package *poly_reg* and the Python package *preg* for the same purpose. The Python package is currently under development and not yet publicly available.
 
 ## The poly_reg package
+Authors: Matthias O. Franz and Peter V. Gehler
+
 Poly_reg is a Matlab package for doing Gaussian process regression [1] using a polynomial covariance function. It can be used to find a Volterra or Wiener series expansion of an unknown system where only pairs of vector-valued inputs and scalar outputs are given [2]. The package provides the following functionalities:
 
 1. Automatic model selection according to one of three possible criteria: a. the log-likelihood of the observed data [1]; b. Geisser’s surrogate predictive probability [3]; c. the analytically computed leave-one-out error on the training set [4].
@@ -31,10 +33,11 @@ The package consists of the following routines:
 * norm_data.m: normalizes data such that every component remains in the interval [0,1]. Should be always used before polynomial regression since polynomials are very sensitive to the scaling of the data.  
 * preg.m: Full Polynomial kernel regression with automatic model selection. Prints out MSE on training and test set.
 * scalarProduct.m: computes scalar product depending on the selected kernel.
+* minimize.m: Carl Rasmussen's minimize, provided here for convenience, see [http://learning.eng.cam.ac.uk/carl/code/minimize/](http://learning.eng.cam.ac.uk/carl/code/minimize/).
 
-For installing the package, please download all files in this directory. In addition, you need the function minimize.m from Carl Rasmussen for doing model selection (see documentation) in the same directory. A simple 1D toy example showing the basic regression functionality is given in the programming example sinc_test.m (together with the plotting routine plot_predict.m). 
+For installing the package, please download all files in the directory *poly_reg*. A simple 1D toy example showing the basic regression functionality is given in the programming example sinc_test.m (together with the plotting routine plot_predict.m). 
 
-Further documentation on poly_reg can be found [here.](https://github.com/mof2/volterra/wiki)
+Further documentation on *poly_reg* can be found [here.](https://github.com/mof2/volterra/wiki)
 
 
 ## References
