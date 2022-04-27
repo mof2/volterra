@@ -24,23 +24,6 @@ The available polynomial covariance functions of order p are
 ```
 where each degree of nonlinearity receives an individual weight w_i that is found during model selection.
 
-The package consists of the following routines:
-
-* alltupels.m: computes all k-tupels of the numbers 1..n, repetitions inside the tupel are allowed. Needed for computing explicit Volterra operators in gpP_volt.
-* gpP_amsd.m: automatic model selection for polynomial regression
-* gpP_build.m: prepare a Gaussian Process structure (initialization)
-* gpP_cov.m: compute covariance and Gram matrix for a polynomial covariance function and independent Gaussian noise model.
-* gpP_eval.m: evaluate Gaussian process regression with polynomial covariance function and independent Gaussian noise model. This function is used to fit the hyperparameters.
-* gpP_eval_wrapper: wrapper function needed for interfacing to Carl’s minimize function.
-* gpP_gram.m: compute either Gram matrix for ihp, or the partial Gram matrices for each degree of nonlinearity for the adaptive polynomial kernel.
-* gpP_pred.m: Gaussian process prediction with polynomial covariance function and independent Gaussian noise model.
-* gpP_volt.m: computes the nth-degree explicit Volterra operator from an implicit Volterra series.
-* invertCovariance.m: Inversion of the Covariance matrix. This function is the only place where the covariance matrix is inverted.
-* norm_data.m: normalizes data such that every component remains in the interval [0,1]. Should be always used before polynomial regression since polynomials are very sensitive to the scaling of the data.  
-* preg.m: Full Polynomial kernel regression with automatic model selection. Prints out MSE on training and test set.
-* scalarProduct.m: computes scalar product depending on the selected kernel.
-* minimize.m: Carl Rasmussen's minimize, provided here for convenience, see [http://learning.eng.cam.ac.uk/carl/code/minimize/](http://learning.eng.cam.ac.uk/carl/code/minimize/).
-
 For installing the package, please download all files in the directory *poly_reg*. A simple 1D toy example showing the basic regression functionality is given in the programming example sinc_test.m (together with the plotting routine plot_predict.m). 
 
 Further documentation on *poly_reg* can be found [here.](https://github.com/mof2/volterra/wiki)
