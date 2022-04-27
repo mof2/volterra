@@ -21,7 +21,7 @@ The available polynomial covariance functions of order p are
 2. the adaptive polynomial kernel: 
 ```
          k(x,y) = sum_i^p (w_i x’y)^I 
-
+```
 where each degree of nonlinearity receives an individual weight w_i that is found during model selection.
 
 The package consists of the following routines:
