@@ -33,6 +33,16 @@ function [X, fX, i] = minimize(X, f, length, varargin);
 % See also: checkgrad 
 %
 % Copyright (C) 2001 - 2006 by Carl Edward Rasmussen (2006-02-23).
+% Permission is granted for anyone to copy, use, or modify these
+% programs and accompanying documents for purposes of research or
+% education, provided this copyright notice is retained, and note is
+% made of any changes that have been made.
+%
+% These programs and documents are distributed without any warranty,
+% express or implied.  As the programs were written for research
+% purposes only, they have not been tested to the degree that would be
+% advisable in any important application.  All use of these programs is
+% entirely at the user's own risk.
 
 INT = 0.1;    % don't reevaluate within 0.1 of the limit of the current bracket
 EXT = 3.0;                  % extrapolate maximum 3 times the current step-size
