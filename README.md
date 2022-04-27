@@ -44,7 +44,7 @@ Further documentation on *poly_reg* can be found [here.](https://github.com/mof2
 
 [1] Rasmussen, C. E., & Williams, C. K. I. (2006). Gaussian processes for machine learning. Cambridge, MA: MIT Press.
 
-[2] Franz, M. O. and B. Schölkopf  (2006) A unifying view of Wiener and Volterra theory and polynomial kernel regression. Neural Computation (in press) [PDF].
+[2] Franz, M. O. and B. Schölkopf (2006). A unifying view of Wiener and Volterra theory and polynomial kernel regression. Neural Computation. 18, 3097 – 3118.
 
 [3] S. Sundararajan, S.S. Keerthi (2001). Predictive approaches for choosing hyperparameters in Gaussian processes. Neural Computation 13, 1103-1118.
 
