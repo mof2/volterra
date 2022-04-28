@@ -1,0 +1,13 @@
+# no .a and .o files
+*.[oa]
+# no ~endings
+*~
+*.pyc
+*.so
+.DS_Store
+.coverage
+build/
+dist/
+doc/_build/
+doc/.DS_Store
+preg.egg-info/
