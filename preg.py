@@ -543,7 +543,7 @@ class Preg:
             gram(hyp)
 
         takes the training inputs provided during the GP initialization and computes
-        G_ij = k(x_i, y_i). The hyperparameters hyp are needed for the 'g' and 'ap'
+        G_ij = k(x_i, y_i). The hyperparameters hyp are needed for the 'ap'
         kernel.
         '''
 
