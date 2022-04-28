@@ -19,7 +19,7 @@ publications.
 Misuse and violation of this copyright is prohibited by German and
 international law.
 
-The package poly_reg uses Carl Rasmussen's minimize.m MATLAB script.
+The packages preg and poly_reg uses Carl Rasmussen's minimize.m MATLAB script.
 His original copyright note is as follows:
 
 		#
@@ -35,3 +35,12 @@ His original copyright note is as follows:
 		#purposes only, they have not been tested to the degree that would be
 		#advisable in any important application.  All use of these programs is
 		#entirely at the user's own risk."
+
+preg uses the Python adaptation by R. Memisevic (2008).
+Changes to the original version:
+- direct call to gp.objective()
+- disabled argument maxnumfunevals, red
+
+Changes to R. Memisevic's version:
+- corrected sign of length = -maxnumfuneval
+- numpy calls with np prefix
