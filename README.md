@@ -1,7 +1,7 @@
 # volterra
 Estimate Volterra series via Gaussian process regression using polynomial kernels
 
-We provide the Matlab package *poly_reg* and the Python package *preg* for the same purpose. The Python package is currently under development and not yet publicly available.
+We provide the Matlab package *poly_reg* and the Python package *preg* for the same purpose. 
 
 ## The *preg* package (Python)
 *preg* is a Python module for doing Gaussian process regression [1] using a polynomial
