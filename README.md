@@ -69,6 +69,8 @@ The automatic model selection uses a minimization routine based on Carl Rasmusse
 minimize.m MATLAB script (see copyright notice in the function code) and its Python
 adaptation by R. Memisevic (2008).
 
+Further documentation on *preg* can be found [here.](https://github.com/mof2/volterra/wiki/Preg-additional-documentation)
+
 
 ## The poly_reg package (Matlab)
 Authors: Matthias O. Franz and Peter V. Gehler
