@@ -35,6 +35,9 @@ Example of use::
 
     # predict on test data
     predicted_test_outputs = gp.predict(test_inputs)
+    
+    # estimate third order Volterra kernel (i.e. a third order tensor of coefficients)
+    volterra_kernel_3 = gp.volt(3)
 
 A simple 1D toy example showing the basic regression functionality is given in the
 accompanying programming example 'sinc_example.py'. Further examples can be found in the
