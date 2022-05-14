@@ -2,18 +2,10 @@
 % impulse response functions, linear and also higher-order, a.k.a. Volterra
 % kernels: http://www.scholarpedia.org/article/Volterra_and_Wiener_series
 % and predict the system response to arbitrary input/forcing.
+% Authors: Tamas Bodai and Matthias O. Franz
 
 clear
 close all
-
-% Add libraries to path if not already in there
-% lib =    {'/Users/tamasbodai/Documents/MATLAB/Useful/poly_reg'; ...
-%               '/Users/bodai/Documents/MATLAB/Useful/poly_reg'};
-%for i1 = 1:length(lib)
-%    if isempty(strfind(path, lib{i1}));
-%        path(lib{i1},path);
-%    end
-%end
 
 t_tr = 10; % transient time to reach the attractor
 h = 0.1; % trajectory sampling increment
