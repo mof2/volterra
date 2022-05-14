@@ -119,7 +119,7 @@ switch gp.ptype
     case 'ihp',
         a = factorial(gp.degree)/factorial(volt_deg)/factorial(gp.degree - volt_deg);
     case 'ap'
-        a = exp(P(volt_deg + 2));
+        a = exp(gp.hp(volt_deg + 2));
    otherwise,
         error('gpP_volt', sprintf('Polynomial type not supported : "%s"', gp.ptype));
 end
