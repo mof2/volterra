@@ -35,7 +35,7 @@ Example of use::
 
     # predict on test data
     predicted_test_outputs = gp.predict(test_inputs)
-    
+
     # estimate third order Volterra kernel (i.e. a third order tensor of coefficients)
     volterra_kernel_3 = gp.volt(3)
 
@@ -81,13 +81,137 @@ hyperparameters in Gaussian processes. Neural Computation 13, 1103-1118.
 [4] V. Vapnik (1982). Estimation of dependences based on empirical data. New York:
 Springer.
 '''
-import logging
+import logging, warnings
 from math import exp, log, pi, floor, factorial
 import numpy as np
 import scipy.linalg as LA
 
 # read in version number from preg_version module
 from preg_version import __version__
+
+# formatter for colored messages
+class ColoredFormatter(logging.Formatter):
+
+    # types required for colored output
+    BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE = range(8)
+    RESET_SEQ = "\033[0m"
+    COLOR_SEQ = "\033[1;%dm"
+    COLORS = {
+        'WARNING': YELLOW,
+        'ERROR': RED,
+        'CRITICAL': MAGENTA
+    }
+
+    def __init__(self, msg):
+        logging.Formatter.__init__(self, msg)
+
+    def format(self, record):
+        levelname = record.levelname
+        message = record.msg
+        if levelname in self.COLORS:
+            message_color = self.COLOR_SEQ % (30 + self.COLORS[levelname]) + message + self.RESET_SEQ
+            record.msg = message_color
+        return logging.Formatter.format(self, record)
+
+
+# logger
+class Logger(logging.getLoggerClass()):
+    '''
+    Logger used for Pipeline. For having exact control over start and stop of logging,
+    the logger should be initialized as::
+
+        with Logger(name, loglevel) as lg:
+            : (code where the logger needs to be active)
+
+    This avoids that the logger remains active after the script stops. Parameters:
+
+    * name: Logger name (default: 'logger')
+    * loglevel: one of the standard log levels of the logging module (default:
+      logging.DEBUG or 10)
+
+    Warnings are output in yellow, errors in red using the methods warn(message) and
+    error(message). warn() uses the warning mechanism from the standard warnings module
+    which are rerouted to the logger. error(message exception) throws an exception after
+    displaying the message the type of which can be provided as second argument (default:
+    Exception). Usel level and debug information are displayed using info(message) and
+    debug(message). All messages can be disabled by setting the loglevel appropriately.
+
+    The logger supports additional logging to a file which is started using the method
+    start_logfile(logfilename) and stopped by stop_logfile(). The number of currently
+    open logfiles is obtained by calling get_nlogfiles().
+    '''
+    def __init__(self, name='logger', loglevel=logging.DEBUG):
+        self.name = name
+        self.loglevel = loglevel
+        self.logger = logging.getLogger(self.name)
+        self.logger.setLevel(self.loglevel)
+
+    # setup logging
+    def __enter__(self):
+        ch = logging.StreamHandler()
+        ch.setLevel(self.loglevel)
+        formatter = ColoredFormatter('%(message)s')
+        ch.setFormatter(formatter)
+        self.logger.addHandler(ch)
+        self.logger.propagate = False    # do not propagate messages to ancestor handlers (avoids
+                                    # double output on consoles/notebooks)
+        warnings.showwarning = self.send_warnings_to_log
+        return self
+
+    # stop logging
+    def __exit__(self, *err):
+
+        # stop logging to all open log files
+        while len(self.logger.handlers) > 1:
+            self.logger.handlers[-1].stream.close()
+            self.logger.removeHandler(self.logger.handlers[-1])
+
+        # stop console logging
+        ch = self.logger.handlers[0]
+        self.logger.removeHandler(ch)
+
+    # reroute warnings to log
+    def send_warnings_to_log(self, message, category, filename, lineno, file=None, line=None):
+        self.logger.warning(str(message))
+        return
+
+    # error
+    def error(self, msg='', errtype=Exception):
+        err_msg = 'ERROR: ' + msg
+        self.logger.error(err_msg)
+        raise errtype(err_msg)
+
+    # warning
+    def warn(self, msg=''):
+        warn_msg = 'WARNING: ' + msg
+        warnings.warn(warn_msg)
+
+    # info
+    def info(self, msg=''):
+        self.logger.info(msg)
+
+    # debug
+    def debug(self, msg=''):
+        self.logger.debug(msg)
+
+    # start logging to file
+    def start_logfile(self, fname):
+        file_handler = logging.FileHandler(fname)
+        formatter = logging.Formatter("%(asctime)s: [%(levelname)s] %(message)s")
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+
+    # get number of currently open log files
+    def get_nlogfiles(self):
+        return len(self.logger.handlers) - 1
+
+    # stop logging to file
+    def stop_logfile(self):
+        if len(self.logger.handlers) < 2: # called before file logging started
+            return # do nothing in this case
+        self.logger.handlers[-1].stream.close()
+        self.logger.removeHandler(self.logger.handlers[-1])
+
 
 class Preg:
     '''
