@@ -27,25 +27,30 @@ The available polynomial covariance functions of order p are
 
 Example of use::
 
-    # init Gaussian process object
-    gp = Preg(logger, covariance, degree, hyperparameters)
+    from preg import Preg, Logger
 
-    # do automatic model selection for polynomial degree 1 to 4 and training
-    gp.amsd(Xtrain, ytrain, [1,2,3,4], model_selection_method, number_of_iterations)
+    with Logger('linear') as lg:
 
-    # predict on test data
-    predicted_test_outputs = gp.predict(test_inputs)
+        # init Gaussian process object
+        gp = Preg(logger, covariance, degree, hyperparameters)
 
-    # estimate third order Volterra kernel (i.e. a third order tensor of coefficients)
-    volterra_kernel_3 = gp.volt(3)
+        # do automatic model selection for polynomial degree 1 to 4 and training
+        gp.amsd(Xtrain, ytrain, [1,2,3,4], model_selection_method, number_of_iterations)
+
+        # predict on test data
+        predicted_test_outputs = gp.predict(test_inputs)
+
+        # estimate third order Volterra kernel (i.e. a third order tensor of coefficients)
+        volterra_kernel_3 = gp.volt(3)
 
 A simple 1D toy example showing the basic regression functionality is given in the
 accompanying programming example 'sinc_example.py'. Further examples can be found in the
-test file 'test_preg.py'. preg can be used together with scikit-learn, i.e. it implements
+test file 'test_preg.py' and in the notebook 'Volterra System Identification.ipynb'.
+
+preg can be used together with scikit-learn, i.e. it implements
 the scikit-lean-API-functions set_params(), get_params(), fit(), and predict() for being
 included in the cross-validation estimator and pipelines. Console output is fed to a
-logger based on the standard python module logging. The logger has to provided by the user
-at startup.
+logger based on the standard python module logging.
 
 To install, unpack the python distribution, then execute::
 

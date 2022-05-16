@@ -1,7 +1,7 @@
 # volterra
 Estimate Volterra series via Gaussian process regression using polynomial kernels
 
-We provide the Matlab package *poly_reg* and the Python package *preg* for the same purpose. 
+We provide the Matlab package *poly_reg* and the Python package *preg* for the same purpose.
 
 ## The *preg* package (Python)
 *preg* is a Python module for doing Gaussian process regression [1] using a polynomial
@@ -32,25 +32,31 @@ The available polynomial covariance functions of order p are
 
 Example of use::
 
-    # init Gaussian process object
-    gp = Preg(logger, covariance, degree, hyperparameters)
+   from preg import Preg, Logger
 
-    # do automatic model selection for polynomial degree 1 to 4 and training
-    gp.amsd(Xtrain, ytrain, [1,2,3,4], model_selection_method, number_of_iterations)
+    with Logger('linear') as lg:
 
-    # predict on test data
-    predicted_test_outputs = gp.predict(test_inputs)
-    
-    # estimate third order Volterra kernel (i.e. a third order tensor of coefficients)
-    volterra_kernel_3 = gp.volt(3)
+        # init Gaussian process object
+        gp = Preg(logger, covariance, degree, hyperparameters)
+
+        # do automatic model selection for polynomial degree 1 to 4 and training
+        gp.amsd(Xtrain, ytrain, [1,2,3,4], model_selection_method,
+            number_of_iterations)
+
+        # predict on test data
+        predicted_test_outputs = gp.predict(test_inputs)
+
+        # estimate third order Volterra kernel (i.e. a third order tensor of coefficients)
+        volterra_kernel_3 = gp.volt(3)
 
 A simple 1D toy example showing the basic regression functionality is given in the
 accompanying programming example 'sinc_example.py'. Further examples can be found in the
-test file 'test_preg.py'. preg can be used together with scikit-learn, i.e. it implements
+test file 'test_preg.py' and in the notebook 'Volterra System Identification.ipynb'.
+
+preg can be used together with scikit-learn, i.e. it implements
 the scikit-lean-API-functions set_params(), get_params(), fit(), and predict() for being
 included in the cross-validation estimator and pipelines. Console output is fed to a
-logger based on the standard python module logging. The logger has to provided by the user
-at startup.
+logger based on the standard python module logging.
 
 To install, unpack the python distribution, then execute::
 
@@ -90,9 +96,9 @@ The available polynomial covariance functions of order p are
 ```
          k(x, y) = (x’*y + 1)^p
 ```
-2. the adaptive polynomial kernel: 
+2. the adaptive polynomial kernel:
 ```
-         k(x,y) = sum_i^p (w_i x’y)^I 
+         k(x,y) = sum_i^p (w_i x’y)^I
 ```
 where each degree of nonlinearity receives an individual weight w_i that is found during model selection.
 
@@ -110,4 +116,4 @@ Further documentation on *poly_reg* can be found [here.](https://github.com/mof2
 [3] S. Sundararajan, S.S. Keerthi (2001). Predictive approaches for choosing hyperparameters in Gaussian processes. Neural Computation 13, 1103-1118.
 
 [4] V. Vapnik (1982). Estimation of dependences based on empirical data. New York: Springer.
- 
+
