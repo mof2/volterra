@@ -32,7 +32,7 @@ The available polynomial covariance functions of order p are
 
 Example of use::
 
-   from preg import Preg, Logger
+    from preg import Preg, Logger
 
     with Logger('linear') as lg:
 
