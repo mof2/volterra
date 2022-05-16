@@ -3,9 +3,8 @@
 
 # imports
 from __future__ import print_function
-import logging
 import numpy as np
-from preg import Preg
+from preg import Preg, Logger
 from math import sin, sqrt, log, exp
 import matplotlib.pyplot as plt
 
@@ -45,29 +44,19 @@ for i in range(0,101):
     else:
         yt[i] = 8.0
 
-# get a logger instance
-lg = logging.getLogger('sinc_example')
-lg.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-ch.setFormatter(formatter)
-lg.addHandler(ch)
+with Logger('preg') as lg: # get a logger instance
 
-# regression
-if covtype in ['ihp', 'sp']:  # initial guess for hyperparams for ihp, sp kernel
-    hp0 = [log(0.6), log(sqrt(0.001))]
-elif covtype == 'ap': # initial guess for hyperparams for ap kernel
-    hp0 = [log(0.6), log(sqrt(0.001)), 0]
-gp = Preg(lg, covtype, 1, hp0) # init GP struct
-gp.preg(x0, y0, x1, y1, range(1,max_order + 1), modsel, n_iter)     # do regression
-print('Condition number of covariance matrix: {:e}'.format(np.linalg.cond(gp.K_, np.inf)))
-mu, s2 = gp.pred_meanvar(xt)                            # predict on interval [-1,1]
-print('best hyperparameters:')
-print(np.exp(gp.hyp))
-
-# stop console logging
-ch = lg.handlers[0]
-lg.removeHandler(ch)
+    # regression
+    if covtype in ['ihp', 'sp']:  # initial guess for hyperparams for ihp, sp kernel
+        hp0 = [log(0.6), log(sqrt(0.001))]
+    elif covtype == 'ap': # initial guess for hyperparams for ap kernel
+        hp0 = [log(0.6), log(sqrt(0.001)), 0]
+    gp = Preg(lg, covtype, 1, hp0) # init GP struct
+    gp.preg(x0, y0, x1, y1, range(1,max_order + 1), modsel, n_iter)     # do regression
+    print('Condition number of covariance matrix: {:e}'.format(np.linalg.cond(gp.K_, np.inf)))
+    mu, s2 = gp.pred_meanvar(xt)                            # predict on interval [-1,1]
+    print('best hyperparameters:')
+    print(np.exp(gp.hyp))
 
 # plot prediction
 noise_est = exp(2.0*gp.hyp[1])                          # noise estimate
