@@ -104,6 +104,7 @@ for deg = degrees
         tgp = gp;
     end
 end
+fprintf('--\nBest degree: %d, minval %.04g\n', tgp.degree, tgp.minval);
 
 % return Gaussian process with best performance
 gp = tgp;

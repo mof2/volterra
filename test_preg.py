@@ -2,7 +2,7 @@ from __future__ import print_function
 import logging
 from math import log, sqrt
 import numpy as np
-from preg import Preg
+from preg import Preg, Logger
 from numpy import linalg as LA
 
 
@@ -227,43 +227,48 @@ def test_ams_and_copy():
 # test Volterra operator
 def test_volt():
 
-    # init gp
-    gp = Preg(lg, 'sp', 3, [0, log(sqrt(0.001))])
-    gp.X_ = np.resize(np.arange(0, 6, dtype=np.float64), (3,2))
-    gp.K_ = np.eye(3, dtype=np.float64)
-    gp.invKt_ = np.ones(3, dtype=np.float64)
+    with Logger('test') as lg:
 
-    print('Data matrix:')
-    print(gp.X_)
-    print('Weights:')
-    print(gp.invKt_)
+        # init gp
+        gp = Preg(lg, 'sp', 3, [0, log(sqrt(0.001))])
+        gp.X_ = np.resize(np.arange(0, 6, dtype=np.float64), (3,2))
+        gp.K_ = np.eye(3, dtype=np.float64)
+        gp.invKt_ = np.ones(3, dtype=np.float64)
 
-    print('O-order:')
-    eta0 = gp.volt(0)
-    print(eta0)
-    assert eta0 == 3.0
+        print('Data matrix:')
+        print(gp.X_)
+        print('Weights:')
+        print(gp.invKt_)
 
-    print('1st-order:')
-    eta1 = gp.volt(1)
-    print(eta1)
-    assert np.allclose(eta1, [6., 9.], 0, 1e-8)
+        print('O-order:')
+        eta0 = gp.volt(0)
+        print(eta0)
+        assert eta0 == 3.0
 
-    print('2nd-order:')
-    eta2 = gp.volt(2)
-    p = np.zeros((2,2))
-    for i in np.arange(0,3):
-        datapt = gp.X_[i,:]
-        p += np.outer(datapt, datapt)
-    print(eta2)
-    assert np.allclose(eta2, p, 0, 1e-8)
+        print('1st-order:')
+        eta1 = gp.volt(1)
+        print(eta1)
+        assert np.allclose(eta1, [6., 9.], 0, 1e-8)
 
-    print('3rd-order:')
-    eta3 = gp.volt(3)
-    p = np.zeros((2,2,2))
-    for i in np.arange(0,3):
-        datapt = gp.X_[i,:]
-        p += np.tensordot(datapt, np.tensordot(datapt, datapt, axes=0), axes=0)
-    print(eta3)
-    assert np.allclose(eta3, p, 0, 1e-8)
+        print('2nd-order:')
+        eta2 = gp.volt(2)
+        p = np.zeros((2,2))
+        for i in np.arange(0,3):
+            datapt = gp.X_[i,:]
+            p += np.outer(datapt, datapt)
+        print(eta2)
+        assert np.allclose(eta2, p, 0, 1e-8)
 
+        print('3rd-order:')
+        eta3 = gp.volt(3)
+        p = np.zeros((2,2,2))
+        for i in np.arange(0,3):
+            datapt = gp.X_[i,:]
+            p += np.tensordot(datapt, np.tensordot(datapt, datapt, axes=0), axes=0)
+        print(eta3)
+        assert np.allclose(eta3, p, 0, 1e-8)
 
+        print('4th-order:')
+        eta4 = gp.volt(4)
+        print(eta4)
+        assert eta4 == []

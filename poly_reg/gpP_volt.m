@@ -30,6 +30,9 @@ function eta = gpP_volt(gp, volt_deg)
 %
 % (C) Copyright 2005, Matthias Franz (2005-03-01)
 
+if volt_deg > gp.degree
+    error(sprintf('Model is only of order %d, cannot compute %d-order Volterra kernel.', gp.degree, volt_deg))
+end
 
 % computes explicit coefficients of Volterra operator of given order for
 % dual coefficient vector alpha and data matrix X (data points in rows) 

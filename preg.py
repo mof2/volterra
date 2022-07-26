@@ -658,6 +658,8 @@ class Preg:
                 opt_invKt = self.invKt_.copy()
 
         # update GP object
+        self.logger.debug('--')
+        self.logger.debug('Model selection finished. Best degree: {:d}, minval {:.04g}'.format(optdeg, min_e))
         self.degree = optdeg
         self.hyp = hyp.copy()
         self.K_ = optK.copy()
@@ -1120,7 +1122,9 @@ class Preg:
             self.logger.warn('preg: Volterra operator degree must be >= 0.')
             return []
         if deg > self.degree:
-            return 0
+            self.logger.warn('preg: Model is only of order {:d}, cannot compute {:d}-order Volterra kernel'.format(
+                self.degree, deg))
+            return []
         deg = float(deg) # avoid integer division
 
         # regression weights
